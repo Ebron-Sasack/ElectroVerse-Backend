@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
-# Build the Spring Boot jar (skip tests for faster build)
+# Build the Spring Boot jar (skip tests for faster build )
 RUN ./mvnw clean package -DskipTests
 
 # Run the Spring Boot app
