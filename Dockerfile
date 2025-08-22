@@ -1,13 +1,15 @@
 # Use Java 21 JDK
 FROM eclipse-temurin:21-jdk
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy all project files
 COPY . .
 
-# Build the Spring Boot jar (skip tests for faster build )
+# Give permission to mvnw
+RUN chmod +x mvnw
+
+# Build the Spring Boot jar
 RUN ./mvnw clean package -DskipTests
 
 # Run the Spring Boot app
