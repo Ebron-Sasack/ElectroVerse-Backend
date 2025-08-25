@@ -1,6 +1,6 @@
 package com.example.Electro.Verse.Controller;
 
-import com.example.Electro.Verse.Utils.JwtUtil;
+import com.example.Electro.Verse.Utils.JwtService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {

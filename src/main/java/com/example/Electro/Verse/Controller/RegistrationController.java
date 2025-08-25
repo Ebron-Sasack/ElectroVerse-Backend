@@ -20,4 +20,3 @@ public class RegistrationController {
         return registrationService.saveRegistration(request);
     }
 }
-

@@ -1,13 +1,19 @@
 package com.example.Electro.Verse.Utils;
 
 import io.jsonwebtoken.*;
-import org.springframework.stereotype.Component;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
-@Component
-public class JwtUtil {
-    private final String SECRET_KEY = "mysecretkey123"; // change for production
+@Service
+public class JwtService {
+    // Corrected: The SECRET_KEY must be at least 32 characters (256 bits)
+    private final String SECRET_KEY = "mysecretkey123mysecretkey123456789012"; // This is now 36 characters long
+    private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -19,7 +25,11 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -31,14 +41,12 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public Boolean validateToken(String token, String username) {
+    public Boolean isTokenValid(String token, UserDetails userDetails) {
         final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+        return (extractedUsername.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }
-
-
