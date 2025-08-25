@@ -23,7 +23,7 @@ public class SecurityConfiguration {
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login").permitAll()
-                        .requestMatchers("/api/register/**").permitAll()
+                        .requestMatchers("/api/registrations/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN") // only admin allowed
                         .anyRequest().authenticated()
