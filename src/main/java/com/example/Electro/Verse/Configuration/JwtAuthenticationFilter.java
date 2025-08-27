@@ -22,7 +22,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtService jwtService;
     private UserDetailsService userDetailsService;
 
-    // Default constructor for Spring to create the bean
     public JwtAuthenticationFilter() {}
 
     @Autowired
@@ -39,8 +38,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
 
+        String path = request.getRequestURI();
+
+        // Skip JWT authentication for public endpoints
+        if (path.startsWith("/api/registrations") ||
+                path.startsWith("/api/auth/login") ||
+                path.startsWith("/api/public")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
