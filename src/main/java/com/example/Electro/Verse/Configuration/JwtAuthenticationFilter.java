@@ -22,8 +22,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtService jwtService;
     private UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter() {}
-
     @Autowired
     public void setJwtService(JwtService jwtService) {
         this.jwtService = jwtService;
@@ -41,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // Skip JWT authentication for public endpoints
+        // Skip JWT for public endpoints
         if (path.startsWith("/api/registrations") ||
                 path.startsWith("/api/auth/login") ||
                 path.startsWith("/api/public")) {

@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()  // ✅ Allow preflight
+                        .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll() // ✅ allow preflight
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/registrations/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
