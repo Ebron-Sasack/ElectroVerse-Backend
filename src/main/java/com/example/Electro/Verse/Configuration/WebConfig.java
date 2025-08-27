@@ -20,8 +20,7 @@ public class WebConfig {
                 registry.addMapping("/api/**")
                         .allowedOrigins(frontendUrl)  // exact frontend URL
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowedHeaders("*");
             }
         };
     }
